@@ -48,17 +48,35 @@ CREATE TABLE EMPLOYEE
     EMP_ID    VARCHAR(20) NOT NULL,
     EMP_PW    VARCHAR(20) NOT NULL,
     EMP_NAME    VARCHAR(20) NOT NULL,
+    JOB_CODE    INTEGER NOT NULL,
     EMP_HIREDATE    DATE NOT NULL,
     PHONE    VARCHAR(20) NOT NULL,
     EMAIL    VARCHAR(255) NOT NULL,
     ADMIN_CODE    INTEGER NOT NULL,
-    JOB_CODE    INTEGER NOT NULL,
  PRIMARY KEY ( EMP_NO ),
  FOREIGN KEY(ADMIN_CODE) REFERENCES ADMIN(ADMIN_CODE),
  FOREIGN KEY(JOB_CODE) REFERENCES JOB(JOB_CODE)
 );
 -- EMP_ID 열에 중복을 방지하는 UNIQUE 제약 조건 추가
 ALTER TABLE EMPLOYEE ADD CONSTRAINT UNIQUE (EMP_ID);
+
+INSERT INTO EMPLOYEE (		# TABLE(컬럼)에 VALUES(값) 추가
+						EMP_NO
+					,   EMP_ID
+                    ,   EMP_PW
+                    ,   EMP_NAME
+                    ,   JOB_CODE
+                    , 	EMP_HIREDATE
+                    ,   PHONE
+                    ,   EMAIL
+                    ,   ADMIN_CODE
+                    	)
+VALUES ('1', 'eunSung', '1234', '조은성', '6', STR_TO_DATE('20230201','%Y%m%d'), '010-1234-1234', '은성@gamil.com', '0')
+	  ,  ('2', 'sooBin', '5678', '윤수빈', '4', STR_TO_DATE('20230210','%Y%m%d'), '010-1234-5678', '수빈@gamil.com', '0')
+	  ,  ('3', 'youngSang', '1357', '고영상', '3', STR_TO_DATE('20230215','%Y%m%d'), '010-1357-1357', '영상@gamil.com', '1')
+      ,  ('4', 'chanWool', '8520', '임찬울', '2', STR_TO_DATE('20230217','%Y%m%d'), '010-8520-1234', '찬울@gamil.com', '1')
+      ,  ('5', 'jinHyun', '0258', '박진현', '1', STR_TO_DATE('20230220','%Y%m%d'), '010-0258-1234', '진현@gamil.com', '1'); 
+
 
 -- ATTENDANCE(근태 테이블 생성)
 CREATE TABLE ATTENDANCE
