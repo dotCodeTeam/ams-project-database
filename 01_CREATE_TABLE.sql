@@ -44,7 +44,7 @@ INSERT INTO JOB
 -- EMPLOYEE(사원정보 테이블 생성)
 CREATE TABLE EMPLOYEE
 (
-    EMP_NO    INTEGER NOT NULL AUTO_INCREMENT,
+    EMP_NO    INTEGER NOT NULL,
     EMP_ID    VARCHAR(20) NOT NULL,
     EMP_PW    VARCHAR(20) NOT NULL,
     EMP_NAME    VARCHAR(20) NOT NULL,
@@ -61,8 +61,8 @@ CREATE TABLE EMPLOYEE
 ALTER TABLE EMPLOYEE ADD CONSTRAINT UNIQUE (EMP_ID);
 
 INSERT INTO EMPLOYEE (		# TABLE(컬럼)에 VALUES(값) 추가
-						EMP_NO
-					,   EMP_ID
+					   EMP_NO
+                    ,  EMP_ID
                     ,   EMP_PW
                     ,   EMP_NAME
                     ,   JOB_CODE
@@ -71,12 +71,13 @@ INSERT INTO EMPLOYEE (		# TABLE(컬럼)에 VALUES(값) 추가
                     ,   EMAIL
                     ,   ADMIN_CODE
                     	)
-VALUES ('1', 'eunSung', '1234', '조은성', '6', STR_TO_DATE('20230201','%Y%m%d'), '010-1234-1234', '은성@gamil.com', '0')
+VALUES ('1','eunSung', '1234', '조은성', '6', STR_TO_DATE('20230201','%Y%m%d'), '010-1234-1234', '은성@gamil.com', '0')
 	  ,  ('2', 'sooBin', '5678', '윤수빈', '4', STR_TO_DATE('20230210','%Y%m%d'), '010-1234-5678', '수빈@gamil.com', '0')
 	  ,  ('3', 'youngSang', '1357', '고영상', '3', STR_TO_DATE('20230215','%Y%m%d'), '010-1357-1357', '영상@gamil.com', '1')
       ,  ('4', 'chanWool', '8520', '임찬울', '2', STR_TO_DATE('20230217','%Y%m%d'), '010-8520-1234', '찬울@gamil.com', '1')
-      ,  ('5', 'jinHyun', '0258', '박진현', '1', STR_TO_DATE('20230220','%Y%m%d'), '010-0258-1234', '진현@gamil.com', '1'); 
+      ,  ('5', 'jinHyun', '0258', '박진현', '1', STR_TO_DATE('20230220','%Y%m%d'), '010-0258-1234', '진현@gamil.com', '1');
 
+SELECT MAX(EMP_NO) FROM EMPLOYEE; 
 
 -- ATTENDANCE(근태 테이블 생성)
 CREATE TABLE ATTENDANCE
@@ -85,14 +86,14 @@ CREATE TABLE ATTENDANCE
     LATE_COUNT    INTEGER NOT NULL,
     ABSENT_COUNT    INTEGER NOT NULL,
     ATTENDANCE_TOTALSCORE    INTEGER NOT NULL,
-    OFFTIME_STATUS    VARCHAR(4) NOT NULL,
+    /* OFFTIME_STATUS    VARCHAR(4) NOT NULL, */
     EMP_NO    INTEGER NOT NULL,
     FOREIGN KEY(EMP_NO) REFERENCES EMPLOYEE(EMP_NO)
 );
--- OFFTIME_STATUS에서 CHECK 제약조건을 추가하여 '예', '아니오' 만 입력할 수 있게끔 지정해놓는다.
+/* -- OFFTIME_STATUS에서 CHECK 제약조건을 추가하여 '예', '아니오' 만 입력할 수 있게끔 지정해놓는다.
 ALTER TABLE ATTENDANCE
 	ADD CONSTRAINT
-    CHECK (OFFTIME_STATUS IN ('YES', 'NO'));
+    CHECK (OFFTIME_STATUS IN ('YES', 'NO')); */
 
 CREATE TABLE VACANT
 (
