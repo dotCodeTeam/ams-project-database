@@ -52,6 +52,7 @@ CREATE TABLE EMPLOYEE
     EMP_HIREDATE    DATE NOT NULL,
     PHONE    VARCHAR(20) NOT NULL,
     EMAIL    VARCHAR(255) NOT NULL,
+    CURRENT_STATUS INTEGER NOT NULL,
     ADMIN_CODE    INTEGER NOT NULL,
  PRIMARY KEY ( EMP_NO ),
  FOREIGN KEY(ADMIN_CODE) REFERENCES ADMIN(ADMIN_CODE),
@@ -69,25 +70,27 @@ INSERT INTO EMPLOYEE (		# TABLE(컬럼)에 VALUES(값) 추가
                     , 	EMP_HIREDATE
                     ,   PHONE
                     ,   EMAIL
+                    ,  	CURRENT_STATUS
                     ,   ADMIN_CODE
                     	)
-VALUES ('1','eunSung', '1234', '조은성', '6', STR_TO_DATE('20230201','%Y%m%d'), '010-1234-1234', '은성@gamil.com', '0')
-	  ,  ('2', 'sooBin', '5678', '윤수빈', '4', STR_TO_DATE('20230210','%Y%m%d'), '010-1234-5678', '수빈@gamil.com', '0')
-	  ,  ('3', 'youngSang', '1357', '고영상', '3', STR_TO_DATE('20230215','%Y%m%d'), '010-1357-1357', '영상@gamil.com', '1')
-      ,  ('4', 'chanWool', '8520', '임찬울', '2', STR_TO_DATE('20230217','%Y%m%d'), '010-8520-1234', '찬울@gamil.com', '1')
-      ,  ('5', 'jinHyun', '0258', '박진현', '1', STR_TO_DATE('20230220','%Y%m%d'), '010-0258-1234', '진현@gamil.com', '1');
+VALUES ('1','eunSung', '1234', '조은성', '6', STR_TO_DATE('20230201','%Y%m%d'), '010-1234-1234', '은성@gamil.com', '1', '0')
+	  ,  ('2', 'sooBin', '5678', '윤수빈', '4', STR_TO_DATE('20230210','%Y%m%d'), '010-1234-5678', '수빈@gamil.com', '0', '0')
+	  ,  ('3', 'youngSang', '1357', '고영상', '3', STR_TO_DATE('20230215','%Y%m%d'), '010-1357-1357', '영상@gamil.com', '0', '1')
+      ,  ('4', 'chanWool', '8520', '임찬울', '2', STR_TO_DATE('20230217','%Y%m%d'), '010-8520-1234', '찬울@gamil.com', '1', '1')
+      ,  ('5', 'jinHyun', '0258', '박진현', '1', STR_TO_DATE('20230220','%Y%m%d'), '010-0258-1234', '진현@gamil.com', '0','1');
 
 SELECT MAX(EMP_NO) FROM EMPLOYEE; 
 
 -- ATTENDANCE(근태 테이블 생성)
 CREATE TABLE ATTENDANCE
-(
+(	
+	EMP_NO    INTEGER NOT NULL,
     ONTIME_COUNT    INTEGER NOT NULL,
     LATE_COUNT    INTEGER NOT NULL,
     ABSENT_COUNT    INTEGER NOT NULL,
-    ATTENDANCE_TOTALSCORE    INTEGER NOT NULL,
+    ATTENDANCE_TOTAL_SCORE    INTEGER NOT NULL,
     /* OFFTIME_STATUS    VARCHAR(4) NOT NULL, */
-    EMP_NO    INTEGER NOT NULL,
+    TOTAY_DAY_COUNT INTEGER NOT NULL,
     FOREIGN KEY(EMP_NO) REFERENCES EMPLOYEE(EMP_NO)
 );
 /* -- OFFTIME_STATUS에서 CHECK 제약조건을 추가하여 '예', '아니오' 만 입력할 수 있게끔 지정해놓는다.
@@ -102,11 +105,18 @@ CREATE TABLE VACANT
     VACANT_NAME    VARCHAR(20) NOT NULL,
     VACANT_DATE    DATE NOT NULL,
     VACANT_CAUSE    VARCHAR(255),
+    PRESENT_DATE		DATE,
+    ACCEPT_STATUS	VARCHAR(10),
  PRIMARY KEY ( VACANT_CATEGORY ),
  FOREIGN KEY (EMP_NO) REFERENCES EMPLOYEE(EMP_NO)
 );
 -- EMP_DATE 열에 중복을 방지하는 UNIQUE 제약 조건 추가
 ALTER TABLE VACANT ADD CONSTRAINT UNIQUE (VACANT_DATE);
+
+-- ACCEPT_STATUS에서 CHECK 제약조건을 추가하여 'Y', 'N' 만 입력할 수 있게끔 지정해놓는다.
+ALTER TABLE VACANT
+	ADD CONSTRAINT
+    CHECK (ACCEPT_STATUS IN ('Y', 'N')); 
 
 -- DOCUMENT(증빙서류)테이블 생성
 CREATE TABLE DOCUMENT
